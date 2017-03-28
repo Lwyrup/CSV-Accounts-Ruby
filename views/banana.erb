@@ -1,0 +1,104 @@
+
+<head>
+	<link rel="stylesheet" href="styles.css?b=asdfa">
+</head>
+
+
+
+<div class="header">
+<h1 class="header-round">Reports</h1>
+	<div class="log-box header-round">
+		<%if !$loggedIn %>
+			<a href="/login">Click to Login</a>
+		<% else %>
+			<p>You are currently logged in. <a href="/logout">Log out</a></p>
+		<% end %>
+	</div>
+
+	<div class="search-box header-round">
+		<p>Search</p>
+		<form>
+			<input class="form" type = "text" name = "whoWeWant" placeholder = "Account Name">
+			<input type =  "submit">
+		</form><br>
+	</div>
+
+
+
+
+
+
+<% if $loggedIn %>
+<div class="new-entry">
+
+	<p>Enter new report entry:</p>
+	
+
+	<form action="/fullreport" method="post">
+
+		<input class="form" type = "text" name = "Account" placeholder = "Account Name">
+
+		<input class="form" type = "text" name = "Date" placeholder = "Date">
+
+		<input class="form" type = "text" name = "Payee" placeholder = "Payee">
+
+		<input class="form" type = "text" name = "Category" placeholder = "Category">
+
+		<input class="form" type = "text" name = "Outflow" placeholder = "Outflow">
+
+		<input class="form" type = "text" name = "Inflow" placeholder = "Inflow">
+
+		<input type = "submit">
+
+	</form>
+
+</div>
+<% end %>
+
+
+
+</div>
+
+
+<div class="data">
+<% @passHash.each do |name, balance| %>
+	<div class="data-table">
+	<table>
+		<caption>Account:<%= name %> &emsp; Balance: $<%= balance[:total].round(2) %></caption>
+		<thead>
+			<th>Category</th>
+			<th>Amount</th>
+			<th>Average per transaction</th>
+		</thead>
+	<% balance[:category].each do |category, t| %>
+		<tr>
+			<!-- MOVE ROUND TO FUNCTIONS -->
+			<td><%= category %></td>	
+			<td><%= t[:tally].round(2) %></td>
+			<td><%= t[:avg_transaction].round(2) %></td>
+		</tr>
+	<% end %>
+	</table>
+	</div>
+	<br>
+<% end %>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
